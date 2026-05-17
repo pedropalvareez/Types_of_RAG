@@ -88,7 +88,7 @@ Query → Retriever → Evaluator ──CORRECT──→ LLM → Answer
 python 04_corrective_rag.py
 ```
 
----
+----
 
 ### 5. Multimodal RAG (`05_multimodal_rag.py`)
 
