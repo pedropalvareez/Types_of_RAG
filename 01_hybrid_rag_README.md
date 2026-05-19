@@ -22,8 +22,14 @@ BM25 is a classic search engine algorithm (the older cousin of Google's search a
 
 ### 4. The Merge: Reciprocal Rank Fusion (reciprocal_rank_fusion)
 Now you have two separate lists of results. Dense search might think Document A is best, while Sparse search thinks Document B is best. How do you decide?
-**What the code does:** It uses RRF. Instead of trying to mix completely different math scores, it looks only at the rank (1st place, 2nd place, 3rd place) of the documents in both lists.
-It applies a simple formula: $\frac{1}{k + \text{rank}}$. Documents that scored high in both lists quickly rise to the very top of the final list.
+
+Because a Cosine Similarity score might be `0.08` and a BM25 score might be `3.38`, you can't just add them together. Instead, the script uses Reciprocal Rank Fusion (RRF).
+
+- It completely ignores the raw mathematical scores from Steps 1 and 2 and looks **only at the rank** (1st place, 2nd place, 3rd place, etc.).
+- It gives each document a new score based on this formula: `1 / (60 + rank)`
+- **Example:** If Document A placed **1st** in Dense Search and **3rd** in Sparse Search, its final RRF score is: `(1 / 61) + (1 / 63) = 0.0322`.
+
+This fusion method ensures that documents that score decently well across *both* meaning and keywords rise to the very top!
 
 ### 5. Generation (mock_llm)
 In a production app, the top 2 or 3 documents found during the merge would be sent to an LLM (like GPT-4) to write a nice answer.
