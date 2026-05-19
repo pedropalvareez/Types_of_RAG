@@ -34,3 +34,45 @@ Finally, the query and that clean list of links are handed over to the Language 
 ## Why this approach is smart
 If you used standard vector search (Traditional RAG), a computer might look for the words "Sam Altman" and "Anthropic" together, fail to find a direct sentence match, and give you a weak answer.
 By mapping the data into a Knowledge Graph first, the system discovers indirect relationships (Person A &rarr; Company B &rarr; Person C) effortlessly.
+
+## 💻 Example Output
+```text
+============================================================
+GRAPH RAG PIPELINE
+============================================================
+Query: What is the relationship between Sam Altman and Anthropic?
+
+Step 1 — Knowledge Graph built: 18 nodes, 9 edges
+  Nodes: ['Sam Altman', 'OpenAI', 'GPT-4', 'Dario Amodei', 'Daniela Amodei', 'Anthropic', 'Microsoft', 'Azure', 'Bing', 'which'] …
+
+Step 2 — Query entities detected: ['Sam Altman', 'Anthropic']
+
+Step 3 — Subgraph retrieved: 10 nodes, 8 edges
+
+Step 4 — Subgraph / Community Summary:
+  [Person] Sam Altman --ceo_of--> [Company] OpenAI
+  [Company] OpenAI --developed--> [Technology] GPT-4
+  [Company] OpenAI --backed_by--> [Company] Microsoft
+  [Person] Dario Amodei --left--> [Company] OpenAI
+  [Company] Anthropic --developed--> [Technology] Claude
+  [Company] Google --invested_in--> [Company] Anthropic
+  [Unknown] weight LLMs and --competes_with--> [Company] OpenAI
+  [Company] NVIDIA --supplies_to--> [Company] OpenAI
+
+Step 5 — LLM Answer:
+[Mock LLM Answer]
+Query: What is the relationship between Sam Altman and Anthropic?
+
+Knowledge Graph Context:
+  [Person] Sam Altman --ceo_of--> [Company] OpenAI
+  [Company] OpenAI --developed--> [Technology] GPT-4
+  [Company] OpenAI --backed_by--> [Company] Microsoft
+  [Person] Dario Amodei --left--> [Company] OpenAI
+  [Company] Anthropic --developed--> [Technology] Claude
+  [Company] Google --invested_in--> [Company] Anthropic
+  [Unknown] weight LLMs and --competes_with--> [Company] OpenAI
+  [Company] NVIDIA --supplies_to--> [Company] OpenAI
+
+Answer: Sam Altman is the CEO of OpenAI. Dario Amodei and Daniela Amodei left OpenAI to found Anthropic in 2021. So Sam Altman and Anthropic share a historical connection through OpenAI, though he is not affiliated with Anthropic.
+============================================================
+```
