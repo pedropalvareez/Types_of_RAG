@@ -1,9 +1,11 @@
-# RAG Architecture Patterns
+# RAG Architecture Patterns
 
 Five self-contained Python examples demonstrating different Retrieval-Augmented
 Generation (RAG) architectures. Every script runs fully offline — no API keys
 required. All LLM responses and embeddings are mocked or generated with
 deterministic random vectors so the focus stays on the pipeline logic.
+
+> **Note:** For a deeper dive into the inner workings of each architecture, be sure to check out the dedicated companion READMEs (e.g., `01_hybrid_rag_README.md` and `02_graph_rag_README.md`). These individual guides provide step-by-step breakdowns of the code, making it easy to understand the "why" and "how" behind each specific pattern.
 
 ## Setup
 
