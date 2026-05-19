@@ -27,3 +27,55 @@ When a hybrid query is submitted—such as *"How do GPT-4 and Claude 3 compare o
 3. **Unified Cross-Modal Retrieval:** Searches the shared vector space to extract the top $K$ most similar items, regardless of their native media type.
 4. **Relevance Score Boosting:** Multiplies the raw similarity scores of preferred media items by a boosting weight (e.g., +15% for requested charts) to surface layout-heavy content.
 5. **Multimodal Synthesis:** Compiles the final mixed text, table grids, and image markers into a rich context package for the Multimodal LLM to read and formulate the answer.
+
+## 💻 Example Output
+When running the script, the terminal will show a log of this process in action:
+
+```text
+============================================================
+MULTIMODAL RAG PIPELINE
+============================================================
+Query: How do GPT-4 and Claude 3 compare on benchmarks? Show me charts or tables. 
+
+Step 1 — Unified Index built:
+  4 text chunks | 3 images | 2 tables
+  Total: 9 documents indexed in shared 64-dim space
+
+Step 2 — Query Modality Preferences:
+  Wants images/charts: True
+  Wants tables:        True
+
+Step 3 — Unified Retrieval (top 5 across all modalities):
+  [IMAGE] score=0.202  Image: LLM scaling laws plot
+  [IMAGE] score=0.156  Image: Benchmark comparison bar chart
+  [TEXT ] score=0.154  Text: Gemini Ultra benchmark description
+  [TEXT ] score=0.133  Text: GPT-4 release description
+  [TABLE] score=0.096  Table: LLM model comparison with parameters and context length
+
+Step 4 — After Modality Boosting (top 5):
+  [IMAGE] score=0.232  Image: LLM scaling laws plot
+  [IMAGE] score=0.179  Image: Benchmark comparison bar chart
+  [TEXT ] score=0.154  Text: Gemini Ultra benchmark description
+  [TEXT ] score=0.133  Text: GPT-4 release description
+  [TABLE] score=0.106  Table: LLM model comparison with parameters and context length
+
+Step 5 — Multimodal LLM Answer:
+[Mock Multimodal LLM Answer]
+Query: How do GPT-4 and Claude 3 compare on benchmarks? Show me charts or tables. 
+
+Retrieved Context (5 items — text=2, images=2, tables=1):
+  (score=0.232) [IMAGE] llm_scaling_laws.png — Log-log plot showing LLM performance scaling with compute and parameter count
+  (score=0.179) [IMAGE] benchmark_comparison_chart.png — Bar chart comparing GPT-4, Claude 3, Gemini on MMLU, HumanEval, and GSM8K benchmarks
+  (score=0.154) [TEXT] Google Gemini Ultra achieves state-of-the-art results on MMLU benchmark, surpassing human experts.
+  (score=0.133) [TEXT] OpenAI GPT-4 was released in March 2023 with multimodal capabilities including image understanding.
+  (score=0.106) [TABLE] LLM Model Comparison
+  Model | Company | Params (B) | Context (K) | Year
+  GPT-4 | OpenAI | ~1800 | 128 | 2023
+  Claude 3 Opus | Anthropic | ~200 | 200 | 2024
+  Gemini Ultra | Google | ~1000 | 1000 | 2024
+  LLaMA 3 70B | Meta | 70 | 8 | 2024
+  Mistral 7B | Mistral | 7 | 32 | 2023
+
+Answer: Based on the benchmark comparison table and chart, Claude 3 Opus leads on MMLU (86.8%) and HumanEval (84.9%), while GPT-4 scores 86.4% on MMLU and 67.0% on HumanEval. The bar chart visually confirms Claude 3 Opus outperforms GPT-4 on coding benchmarks. Gemini Ultra achieves the highest MMLU score (90.0%).
+============================================================
+```
