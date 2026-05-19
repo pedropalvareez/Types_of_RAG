@@ -119,3 +119,5 @@ python 05_multimodal_rag.py
 | `networkx` | `02_graph_rag.py` (KG traversal) |
 
 BM25 is implemented from scratch in `01_hybrid_rag.py` — no extra package needed.
+
+# Types_of_RAG
