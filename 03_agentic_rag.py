@@ -81,7 +81,7 @@ class WebSearchTool:
         best_key, best_score = None, 0
         q_words = set(query.lower().split())
         for key in WEB_INDEX:
-            overlap = len(q_words & set(key.lower().split()))
+            overlap = len(q_words & set(key.lower().split()))  #& means interseccion
             if overlap > best_score:
                 best_score, best_key = overlap, key
         result = WEB_INDEX.get(best_key, "No relevant web results found.")
